@@ -1,6 +1,14 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+
+HISTFILE=~/.dotfiles/tmp/.zsh_history
+SAVEHIST=1000 
+setopt inc_append_history # To save every command before it is executed 
+setopt share_history # setopt inc_append_history
+
+
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.dotfiles/.zshrc.d/oh-my-zsh"
 
@@ -62,7 +70,9 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git,
+	 colored-man-pages
+	)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/common/aliases

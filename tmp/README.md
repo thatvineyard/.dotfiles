@@ -1,0 +1,1 @@
+this directory is used to store temporary files such as history files. 
