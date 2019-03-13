@@ -1,0 +1,113 @@
+* Carl's Emacs Settings
+
+Settings for Emacs. 
+
+** Table of Contents
+
+- Directory Structure
+- Init.el
+- Settings
+- Lisp
+- Elpa
+
+** Directory Structure
+#+BEGIN_SRC text
+˫.emacs.d
+ ˫ init.el
+ ˫ settings   
+ ˫ elpa      # packages installed through ELPA
+ ˫ lisp      # manually incorporated functions
+#+END_SRC
+
+
+** Init.el
+
+*** Directories
+
+Set directory variables which are used in the rest of the init file. It is defined this way to make restructuring the directory easier. 
+
+**** Example: 
+Set settings directory.
+#+BEGIN_SRC text
+(setq settings-dir
+      (expand-file-name "settings" user-emacs-directory))
+#+END_SRC
+
+*** Packages
+
+Load packages from both Elpa and Lisp directory. 
+**** Example:
+Load eval-and-replace.
+#+BEGIN_SRC text
+(add-to-list 'load-path lisp-dir)
+(load-library "eval-and-replace")
+#+END_SRC
+
+*** Settngs
+
+Load settings files. 
+
+**** Example:
+Load sane-defaults.el.
+#+BEGIN_SRC text
+(add-to-list 'load-path settings-dir)
+(load-library "sane-defaults")
+#+END_SRC
+
+
+** Settings
+
+*** Appearance
+
+Settings that change the appearance of emacs, such as startup, mode-line and theme. 
+
+*** Keybindings
+
+Miscellaneous keybindings. 
+
+*** Sane-defaults
+
+A personalized sane-defaults. 
+
+** Lisp
+
+*** eval-and-replace
+
+A small function used to evaluate correctly formatted lisp expressions and replaces the expression with the result. 
+
+**** Example:
+#+BEGIN_SRC text
+(+ 2 2) 
+#+END_SRC
+
+Turns into
+
+#+BEGIN_SRC text
+4
+#+END_SRC
+
+*** full-screen-mode
+
+
+** Elpa
+
+*** Auto-complete
+
+Auto-complete package.
+
+*** Yasnippets
+
+Yasnippets.
+
+Insert formatted, mode-sensitive snippets.
+
+To review past snippets, use M-x yas-visit-snippet-file. 
+
+To create a new snippert, use M-x yas-new-snippet and save the file into the appropriate folder within elpa/yasnippet-0.8.0/snippets/<mode folder>/
+
+*** Flycheck
+
+*** Dired+
+
+*** Shrink Whitepsace
+

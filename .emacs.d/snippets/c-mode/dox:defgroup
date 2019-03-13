@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: dox:defgroup
+# key: @defgroup
+# --
+/**
+	@defgroup ${1:Group Id} ${2:Group Name}
+	@{
+	*/
+
+$0/**@}*/

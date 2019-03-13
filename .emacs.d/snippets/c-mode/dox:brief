@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: dox:param
+# key: @brief
+# --
+/**
+	@brief $0
+	*/

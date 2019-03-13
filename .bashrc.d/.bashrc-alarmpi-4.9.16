@@ -1,0 +1,233 @@
+
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set colors
+if [ "$TERM" = "linux" ]; then
+    echo -en "\e]P0202020@" #black
+    echo -en "\e]P8404040@" #darkgrey
+    echo -en "\e]P1bf3f34@" #darkred
+    echo -en "\e]P9ff6c5f@" #red
+    echo -en "\e]P2707d22@" #darkgreen
+    echo -en "\e]PAb8ca4b@" #green
+    echo -en "\e]P3bf7a29@" #brown
+    echo -en "\e]PBc7a551@" #yellow
+    echo -en "\e]P4627a92@" #darkblue
+    echo -en "\e]PC95b9de@" #blue
+    echo -en "\e]P575507b@" #darkmagenta
+    echo -en "\e]PDad7fa8@" #magenta
+    echo -en "\e]P6757978@" #darkcyan
+    echo -en "\e]PE9fa590@" #cyan
+    echo -en "\e]P7b2a191@" #lightgrey
+    echo -en "\e]PFe8d0c3@" #white
+    clear #for background artifacting
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# Prompt configuration
+
+# Opening and closing characters
+PS1_open=' [ '
+PS1_close=' ] '
+PS1_newline='\n'
+PS1_delimiter='------> '
+
+# Color
+PS1_right_color='\[\e[1;35m\]'
+PS1_first_line_color='\[\e[1;35m\]'
+PS1_second_line_color='\[\e[1;34m\]'
+PS1_color_close='\[\e[m\] '
+
+# Input color
+PS1_input_color='\[\e[1;34m\]'
+
+# Reset color after input
+trap 'tput sgr0' DEBUG
+
+# Git branch finder
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+# Right justified time
+rightprompt()
+{
+    printf "%*s" $COLUMNS $(date +"%Y-%m-%d|%H:%M")
+}
+
+# Actual prompt
+PS1_prompt='${debian_chroot:+($debian_chroot)}\u@\h | \w$(parse_git_branch)'
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+	PS1_right_side='\[$(tput sc; rightprompt; tput rc)\]'
+	PS1_first_line=$PS1_open$PS1_prompt$PS1_close
+	PS1_second_line=$PS1_newline$PS1_delimiter
+    ;;
+*)
+    ;;
+esac
+
+if [ "$color_prompt" = yes ]; then
+    PS1=$PS1_right_color$PS1_right_side$PS1_first_line_color$PS1_first_line$PS1_second_line_color$PS1_second_line$PS1_input_color
+fi
+unset color_prompt force_color_prompt
+
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --group-directories-first --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# A script which chooses the correct way to extract a zip file. 
+extract () {
+   if [ -f $1 ] ; then
+       case $1 in
+           *.tar.bz2)   tar xvjf $1    ;;
+           *.tar.gz)    tar xvzf $1    ;;
+           *.bz2)       bunzip2 $1     ;;
+           *.rar)       unrar x $1       ;;
+           *.gz)        gunzip $1      ;;
+           *.tar)       tar xvf $1     ;;
+           *.tbz2)      tar xvjf $1    ;;
+           *.tgz)       tar xvzf $1    ;;
+           *.zip)       unzip $1       ;;
+           *.Z)         uncompress $1  ;;
+           *.7z)        7z x $1        ;;
+           *)           echo "don't know how to extract '$1'..." ;;
+       esac
+   else
+       echo "'$1' is not a valid file!"
+   fi
+ }
+
+
+# Directory aliases
+UU() {
+    cd ~/Documents/UU/$1
+}
+PROG() {
+    cd ~/Documents/Programming/$1
+}
+
+PROJ() {
+    PROJECTDIR=/home/carl/Documents/UU/IOOPM/fladdermusen/
+    GIT=true
+
+    cd ${PROJECTDIR};
+    emacs &
+    gnome-terminal &
+    
+    cd ${PROJECTDIR}
+    if [ ${GIT} = true ] ; then
+	git config --local --get remote.origin.url | xargs -I {} google-chrome-stable {} &
+	git pull &
+    fi
+
+    ls -l
+}
+
+# Edit aliases
+alias edit-bash='emacs -nw ~/.bashrc; . ~/.bashrc'
+alias edit-emacs='emacs -nw ~/.emacs.d/'
+alias sumacs='sudo emacs'
+
+# Add java to path
+export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin/
+export JUNT_HOME=/usr/lib/junit/
+export CLASSPATH=$CLASSPATH:$JUNIT_HOME/junit4.10.jar:.
+
