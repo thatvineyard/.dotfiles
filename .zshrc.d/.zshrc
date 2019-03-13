@@ -8,7 +8,6 @@ setopt inc_append_history # To save every command before it is executed
 setopt share_history # setopt inc_append_history
 
 
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.dotfiles/.zshrc.d/oh-my-zsh"
 
@@ -72,6 +71,8 @@ ZSH_THEME="agnoster"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git,
 	 colored-man-pages
+	 colorize
+	 zsh-syntax-highlighting
 	)
 
 source $ZSH/oh-my-zsh.sh
@@ -105,3 +106,5 @@ source ~/.dotfiles/common/aliases
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+prompt_context() {}
