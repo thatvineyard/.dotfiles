@@ -1,0 +1,16 @@
+# Navigation aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Configuration aliases
+alias reset-bash='. ~/.bashrc'
+alias edit-bash='emacs -nw ~/.bashrc; reset-bash'
+alias reset-zsh='. ~/.zshrc'
+alias edit-zsh='emacs -nw ~/.dotfiles/.zshrc.d/.zshrc; reset-zsh'
+alias edit-emacs='emacs -nw ~/.dotfiles/.emacs.d/'
+alias sumacs='sudo emacs -nw'
+alias nomacs='emacs -nw'
+
+# SSH aliases
+alias ssh-thatvineyard='ssh thatvineyard@thatvineyard.com'
