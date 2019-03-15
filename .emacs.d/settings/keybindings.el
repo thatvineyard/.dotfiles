@@ -2,7 +2,7 @@
 (global-set-key "\C-x\C-b" 'ibuffer)
 
 ;; Shrink whitespace
-(global-set-key "\M-D" 'shrink-whitespace)
+;(global-set-key "\M-D" 'shrink-whitespace)
 
 ;; Tab to other windows
 (global-set-key (kbd "<C-tab>") 'other-window)

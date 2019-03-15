@@ -14,7 +14,7 @@
      ("MELPA" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (multiple-cursors yaml-mode php-mode haskell-mode yasnippet shrink-whitespace multi-web-mode flycheck dired+ auto-complete))))
+    (multiple-cursors yaml-mode php-mode haskell-mode shrink-whitespace multi-web-mode dired+ auto-complete))))
 
 ;; Directories
 (setq settings-dir
